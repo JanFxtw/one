@@ -1,0 +1,11 @@
+.boxSlider { width: 180px; height: 137px; margin-left: 9px; float: left; border: 2px solid #31bbf1; padding: 10px; background: #333; font-family: Arial; }
+.boxSlider .sliderWrap { position: relative; width: 180px; height: 137px; overflow: hidden; }
+.boxSlider .sliderWrap .slider { width: 1000px; float: left }
+.boxSlider .sliderWrap .newSlide { width: 180px; float: left; height: 105px; position: relative }
+.boxSlider .sliderWrap .newSlide p { font-size: 12px; color: #fff; margin: 0 0 8px 0; padding: 0; float: left; width: 100% }
+.boxSlider .sliderWrap .newSlide p.dateFormat { font-size: 10px; color: #ffcb05; font-weight: bold; }
+.boxSlider .sliderWrap .newSlide a {   float: left; color: #fff; font-size: 12px; text-decoration: underline }
+.boxSlider .sliderWrap .prev, .boxSlider .sliderWrap .next { position: absolute; cursor: pointer; background:#31bbf1; padding:2px }
+.boxSlider .sliderWrap .prev { top: 0; right: 15px; }
+.boxSlider .sliderWrap .next { right: 0; top: 0;  }
+.boxSlider .sliderWrap h3 { width: auto; float: left; padding: 0; color: #fff; font-size: 13px; font-weight: normal; margin: 0 0 15px 0; }

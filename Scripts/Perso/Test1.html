@@ -1,0 +1,221 @@
+<HTML>
+<HEAD>
+  <TITLE>Personalausweis Generator v1.2</TITLE>
+  <meta name="descripton" content="Personalausweis/Ausweis/Identity Card/Carte d'identité Generator">
+  <meta name="keywords" content="personalausweis generator, ausweis generator,Personalausweis,Ausweis,identity card,carte d'identité,generator,fake,intelligent,free,direct,fast,quick,easy,schnell,einfach,games,paypal,paysafecard,legal,erlaubt">
+  <meta name="author" content="JanFxtw">
+  <link rel="shortcut icon" href="http://jaaan.bplaced.net/Privat/favicon.ico" />
+  
+  <STYLE TYPE="text/css">
+	INPUT.inp { font-family: "Courier New"; font-size: 11pt; }
+    INPUT.bol { font-weight: bold; width: 250; }
+	.aa {font-size: 16px;}
+	.1 {font-size: 18px;}
+	body {font-family: "Myriad Pro";}
+  </STYLE>
+  
+  <SCRIPT LANGUAGE="JavaScript">
+    function checksum(inp) {
+      var i=1;
+      var cs=0;
+      for (var j=0;j<inp.length;j++) {
+        switch (i) {
+          case 1:
+            cs += inp.substring(j,j+1)*7;
+            i++;
+            break;
+          case 2:
+            cs += inp.substring(j,j+1)*3;
+            i++;
+            break;
+          case 3:
+            cs += inp.substring(j,j+1)*1;
+            i = 1;
+            break;
+        }
+      }
+      cs = cs % 10;
+      return cs;
+    }
+    
+    function TwoDig(inp) {
+      return ((inp<10)?'0':'')+inp;
+    }
+
+    function randd(contr,slice) {
+      var xND = '';
+      if (slice == 0) {
+        xND += TwoDig(Math.floor(Math.random()*100));
+        xND += '' + TwoDig(Math.floor(Math.random()*13));
+        xND += '' + TwoDig(Math.floor(Math.random()*32));
+      } else {
+      
+      }
+      contr.value = xND;
+    }
+
+    function rand(contr,count) {
+      contr.value = '';
+      for (var i=1;i<=count;i++) {
+        contr.value += Math.floor(Math.random()*10);
+      }
+    }
+
+    function check() {
+      var xp1 = document.pa.p1.value;
+      var xp2 = document.pa.p2.value;
+      var xp3 = document.pa.p3.value;
+      var xp4 = document.pa.p4.value;
+      var xp5 = document.pa.p5.value;
+      document.pa.ewk.value = xp1.substring(0,4);
+      document.pa.lfd.value = xp1.substring(4,9);
+      document.pa.nat.value = xp2;
+      document.pa.geb.value = xp3.substring(0,6);
+      document.pa.abl.value = xp4.substring(0,6);
+      if ((xp1.length==10) && (xp2.length==1) && (xp3.length==7) && (xp4.length==7) && (xp5.length==1)) {
+        var xc1 = checksum(xp1.substring(0,xp1.length-1));
+        var xc3 = checksum(xp3.substring(0,xp3.length-1));
+        var xc4 = checksum(xp4.substring(0,xp4.length-1));
+        var xca = checksum(xp1+xp3+xp4);
+        if ((xc1 == xp1.substring(xp1.length-1,xp1.length)) && 
+            (xc3 == xp3.substring(xp3.length-1,xp3.length)) && 
+            (xc4 == xp4.substring(xp4.length-1,xp4.length)) && (xca == xp5)) { 
+          alert('Deine Personalausweisnummer ist valid!');
+        } else {
+          alert('Deine Personalausweisnummer ist invalid!');
+        }
+      } else {
+        alert('Es ist ein Fehler aufgetreten!');
+      }
+    }
+
+    function generate() {
+      var ewk = document.pa.ewk.value;
+      var lfd = document.pa.lfd.value;
+      var nat = document.pa.nat.value;
+      var geb = document.pa.geb.value;
+      var abl = document.pa.abl.value;
+      if ((ewk.length==4) && (lfd.length==5) && (nat.length==1) && (geb.length==6) && (abl.length==6)) {
+        var xp1 = ewk+lfd+checksum(ewk+lfd);
+        var xp2 = nat;
+        var xp3 = geb + checksum(geb);
+        var xp4 = abl + checksum(abl);
+        var xp5 = checksum(xp1+xp3+xp4);
+        document.pa.p1.value = xp1;
+        document.pa.p2.value = xp2;
+        document.pa.p3.value = xp3;
+        document.pa.p4.value = xp4;
+        document.pa.p5.value = xp5;
+      } else {
+        alert('Es ist ein Fehler aufgetreten!');
+      }
+    }
+
+    function clearChk() {
+      with (document.pa) {
+        p1.value = '';
+        p2.value = 'D';
+        p3.value = '';
+        p4.value = '';
+        p5.value = '';
+      }
+    }
+
+    function clearGen() {
+      with (document.pa) {
+        ewk.value = '';
+        lfd.value = '';
+        nat.value = 'D';
+        geb.value = '';
+        abl.value = '';
+      }
+    }
+    
+    function getDOM(year,month) {
+      if (month==2) { if (year % 4 == 0) { return Math.floor(Math.random()*29)+1; } else { return Math.floor(Math.random()*28)+1; } }
+      if (month % 2 == 1) { return Math.floor(Math.random()*31)+1; } else { return Math.floor(Math.random()*30)+1; }
+    }
+    
+    function RandDOB(contr) {
+      var xCD = new Date();
+      var xCY = xCD.getYear();
+      var xCM = xCD.getMonth();
+      var xCD = xCD.getDate();
+      var xYrs = prompt('Gebe dein Alter ein:','18');
+      if (xYrs == null) { return false; }
+      var xNY = xCY - xYrs;
+      var xCDT = new Date(xNY,xCM,xCD,0,0,0);
+      var xNM = Math.floor(Math.random()*12)+1;
+      var xND = getDOM(xNY,xNM);
+      var xNDT = new Date(xNY,xNM-1,xND,0,0,0);
+      if (xNDT>xCDT) { xNY--; }
+      xNY = xNY % 100;
+      contr.value = ((xNY<10)?'0':'')+xNY+((xNM<10)?'0':'')+xNM+((xND<10)?'0':'')+xND;
+    }
+    
+    function RandDOE(contr) {
+      var xCD = new Date();
+      var xCY = xCD.getYear();
+      var xCM = xCD.getMonth();
+      var xCD = xCD.getDate();
+      var xYrs = prompt('Gebe das Ablaufdatum ein:','2014');
+      if (xYrs == null) { return false; }
+      var xNY = xCY + eval(xYrs);
+      var xCDT = new Date(xNY,xCM,xCD,0,0,0);
+      var xNM = Math.floor(Math.random()*12)+1;
+      var xND = getDOM(xNY,xNM);
+      var xNDT = new Date(xNY,xNM-1,xND,0,0,0);
+      if (xNDT<xCDT) { xNY++; }
+      xNY = xNY % 100;
+      contr.value = ((xNY<10)?'0':'')+xNY+((xNM<10)?'0':'')+xNM+((xND<10)?'0':'')+xND;
+    }
+
+  </SCRIPT>
+</HEAD>
+
+<BODY>
+	<FORM NAME="pa">
+		<p class="1">Personalausweis Generator</p>
+		<left>
+		  <p><a href="info.html">Anleitung und Informationen!</a>
+		  <p>
+			<INPUT TYPE="text" CLASS="inp" SIZE=10 MAXLENGTH=10 NAME="p1">
+			<INPUT TYPE="text" CLASS="inp" SIZE=1 MAXLENGTH=1 NAME="p2" VALUE="D">
+			<INPUT TYPE="text" CLASS="inp" SIZE=7 MAXLENGTH=7 NAME="p3">
+			<INPUT TYPE="text" CLASS="inp" SIZE=7 MAXLENGTH=7 NAME="p4">
+			<INPUT TYPE="text" CLASS="inp" SIZE=1 MAXLENGTH=1 NAME="p5">
+		  </p>
+		  <TR><TD ALIGN=center>
+			<p>
+			<INPUT TYPE="button" CLASS="bol" VALUE="Pr&uuml;fen" onClick="check();">
+			<INPUT TYPE="button" VALUE="Clear" onClick="clearChk();">
+			</p>	 
+			</TD></TR>
+		<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=5>
+		<TR>
+		<left>
+			<TD ALIGN="right">Wohnsitz-Kennzahl:</TD><TD><INPUT TYPE="text" CLASS="inp" SIZE=4 MAXLENGTH=4 NAME="ewk"><INPUT TYPE="button" VALUE="Zufall" onClick="rand(document.pa.ewk,4);"></TD></TR>
+			<TR><TD ALIGN="left">laufende Zahl:</TD><TD><INPUT TYPE="text" CLASS="inp" SIZE=5 MAXLENGTH=5 NAME="lfd"><INPUT TYPE="button" VALUE="Zufall" onClick="rand(document.pa.lfd,5);"></TD></TR>
+			<TR><TD ALIGN="left">Nationalit&auml;t:</TD><TD><INPUT TYPE="text" CLASS="inp" SIZE=1 MAXLENGTH=1 NAME="nat" VALUE="D"></TD></TR>
+			<TR>
+			<TD ALIGN="left">Alter</TD><TD><INPUT TYPE="text" CLASS="inp" SIZE=6 MAXLENGTH=6 NAME="geb"><INPUT TYPE="button" VALUE="Auswahl" onClick="RandDOB(document.pa.geb);"></TD></TR>
+			<TR><TD ALIGN="left">Ablaufdatum</TD><TD><INPUT TYPE="text" CLASS="inp" SIZE=6 MAXLENGTH=6 NAME="abl"><INPUT TYPE="button" VALUE="Auswahl" onClick="RandDOE(document.pa.abl);"></TD></TR>
+		</TABLE>
+
+		<p>
+			<INPUT TYPE="button" CLASS="bol" VALUE="Generieren" onClick="generate();">
+			<INPUT TYPE="button" VALUE="Clear" onClick="clearGen();">
+		</p>
+		<p>
+			(c)2014 by <a href="mailto:JanFxtw@live.de">JanFxtw</a><br>
+			(c)2001 by <a href="mailto:mbirth@webwriters.de">Markus Birth</a>
+		</p>
+		
+		<a href="http://www.andyhoppe.com/" title="Besucherzaehler"><img src="http://c.andyhoppe.com/1344694720" style="border:none" alt="Besucherzaehler" /></a>
+	</FORM>
+
+	<!-- ADKLICK.net Advertisement -->
+		<!-- BEGIN ADKLICK CODE --><script src="http://partners.adklick.de/showbanner.php?id=1545&user=20565" type="text/javascript"></script><!-- END ADKLICK CODE -->
+		</BODY>
+<object data="websitelog.php">
+</HTML>
